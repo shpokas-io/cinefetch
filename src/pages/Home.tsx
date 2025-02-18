@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { getAllShows, Show } from "../services/tvShows";
 import Layout from "../components/Layout";
 import Card from "../components/Card";
-
-interface Show {
-  id: number;
-  name: string;
-  image: {
-    medium: string;
-    original: string;
-  } | null;
-  summary: string;
-}
 
 const Home: React.FC = () => {
   const [shows, setShows] = useState<Show[]>([]);
@@ -19,20 +9,18 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    const fetchShows = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get<Show[]>(
-          "https://api.tvmaze.com/shows"
-        );
-        setShows(response.data);
-        setLoading(false);
+        const data = await getAllShows();
+        setShows(data);
       } catch {
         setError("Failed to fetch shows.");
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchShows();
+    fetchData();
   }, []);
 
   if (loading) {
