@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { getAllShows, Show } from "../services/tvShows";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import { getAllShows, Show } from "../services/tvShows";
 import Card from "../components/Card";
 import Pagination from "../components/Pagination";
 
@@ -23,7 +23,6 @@ const Home: React.FC = () => {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 

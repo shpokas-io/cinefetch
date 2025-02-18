@@ -15,9 +15,16 @@ export interface Show {
   status: string;
   premiered: string | null;
   ended: string | null;
+  language: string | null;
+  runtime: number | null;
 }
 
 export const getAllShows = async (): Promise<Show[]> => {
   const response = await axios.get<Show[]>("https://api.tvmaze.com/shows");
+  return response.data;
+};
+
+export const getShowById = async (id: string): Promise<Show> => {
+  const response = await axios.get<Show>(`https://api.tvmaze.com/shows/${id}`);
   return response.data;
 };
