@@ -45,52 +45,6 @@ const Header: React.FC = () => {
           />
         </div>
       </div>
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <select
-          style={{
-            backgroundColor: isDark ? "#374151" : "#e5e7eb",
-            color: "var(--text-color)",
-            border: "none",
-            padding: "0.5rem",
-            borderRadius: "0.25rem",
-          }}
-        >
-          <option>No sort</option>
-          <option>Name ascending</option>
-          <option>Name descending</option>
-          <option>Premiered ascending</option>
-          <option>Premiered descending</option>
-        </select>
-        <select
-          style={{
-            backgroundColor: isDark ? "#374151" : "#e5e7eb",
-            color: "var(--text-color)",
-            border: "none",
-            padding: "0.5rem",
-            borderRadius: "0.25rem",
-          }}
-        >
-          <option>Genres filter</option>
-          <option>Action</option>
-          <option>Crime</option>
-          <option>Drama</option>
-          <option>Thriller</option>
-        </select>
-        <select
-          style={{
-            backgroundColor: isDark ? "#374151" : "#e5e7eb",
-            color: "var(--text-color)",
-            border: "none",
-            padding: "0.5rem",
-            borderRadius: "0.25rem",
-          }}
-        >
-          <option>Status filter</option>
-          <option>All</option>
-          <option>Ended</option>
-          <option>Running</option>
-        </select>
-      </div>
       <nav style={{ display: "flex", gap: "1rem" }}>
         <a
           href="#"

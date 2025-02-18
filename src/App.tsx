@@ -1,6 +1,5 @@
 import React from "react";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+
 import Home from "./pages/Home";
 
 const App: React.FC = () => (
@@ -14,11 +13,7 @@ const App: React.FC = () => (
       flexDirection: "column",
     }}
   >
-    <Header />
-    <main style={{ flex: 1 }}>
-      <Home />
-    </main>
-    <Footer />
+    <Home />
   </div>
 );
 
