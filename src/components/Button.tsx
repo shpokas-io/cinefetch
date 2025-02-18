@@ -1,9 +1,17 @@
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+import React from "react";
 
-const Button: React.FC<ButtonProps> = ({ children, ...props }) => (
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  className?: string;
+};
+
+const Button: React.FC<ButtonProps> = ({
+  children,
+  className = "",
+  ...props
+}) => (
   <button
     {...props}
-    className="px-6 py-3 bg-[var(--button-bg)] text-[var(--button-text)] rounded-lg cursor-pointer hover:bg-[var(--button-hover)]"
+    className={`px-6 py-3 bg-[var(--button-bg)] text-[var(--button-text)] rounded-lg cursor-pointer hover:bg-[var(--button-hover)] transition ${className}`}
   >
     {children}
   </button>

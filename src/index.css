@@ -3,17 +3,17 @@
 :root {
   --bg-color: #ffffff;
   --text-color: #000000;
-  --button-bg: #3b82f6;
+  --button-bg: #4ade80;
   --button-text: #ffffff;
-  --button-hover: #2563eb;
+  --button-hover: #2b854c;
 }
 
 .dark {
   --bg-color: #111827;
   --text-color: #f3f4f6;
-  --button-bg: #2563eb;
+  --button-bg: #4ade80;
   --button-text: #ffffff;
-  --button-hover: #1d4ed8;
+  --button-hover: #2b854c;
 }
 
 body {
