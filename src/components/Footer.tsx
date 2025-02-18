@@ -8,7 +8,7 @@ const Footer: React.FC = () => (
       backgroundColor: "var(--bg-color)",
     }}
   >
-    <div>&copy; {new Date().getFullYear()} CineFetch</div>
+    <div>&copy; {new Date().getFullYear()} cineFetch</div>
   </footer>
 );
 
