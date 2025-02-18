@@ -8,6 +8,13 @@ export interface Show {
     original: string;
   } | null;
   summary: string;
+  rating: {
+    average: number | null;
+  };
+  genres: string[];
+  status: string;
+  premiered: string | null;
+  ended: string | null;
 }
 
 export const getAllShows = async (): Promise<Show[]> => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import Card from "../components/Card";
 import { getAllShows, Show } from "../services/tvShows";
+import Card from "../components/Card";
 
 const Home: React.FC = () => {
   const [shows, setShows] = useState<Show[]>([]);
@@ -41,22 +41,9 @@ const Home: React.FC = () => {
 
   return (
     <Layout showFilters>
-      <div className="p-4 grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
-        {shows.map((show) => (
-          <Card
-            key={show.id}
-            title={show.name}
-            image={
-              show.image
-                ? show.image.medium
-                : "https://via.placeholder.com/250x150"
-            }
-            description={
-              show.summary
-                ? show.summary.replace(/<[^>]+>/g, "")
-                : "No description available."
-            }
-          />
+      <div className="p-4 grid gap-6 md:grid-cols-2">
+        {shows.slice(0, 10).map((show) => (
+          <Card key={show.id} show={show} />
         ))}
       </div>
     </Layout>
