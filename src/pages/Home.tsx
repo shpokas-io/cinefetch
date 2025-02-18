@@ -4,14 +4,7 @@ import Card from "../components/Card";
 
 const Home: React.FC = () => (
   <Layout>
-    <div
-      style={{
-        padding: "1rem",
-        display: "grid",
-        gap: "1rem",
-        gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-      }}
-    >
+    <div className="p-4 grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
       <Card
         title="Movie 1"
         image="https://via.placeholder.com/250x150"

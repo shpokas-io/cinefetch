@@ -4,19 +4,10 @@ import Filters from "./Filters";
 import Footer from "./Footer";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div
-    className="theme-transition"
-    style={{
-      backgroundColor: "var(--bg-color)",
-      color: "var(--text-color)",
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-    }}
-  >
+  <div className="min-h-screen flex flex-col bg-[var(--bg-color)] text-[var(--text-color)] theme-transition">
     <Header />
     <Filters />
-    <main style={{ flex: 1 }}>{children}</main>
+    <main className="flex-1">{children}</main>
     <Footer />
   </div>
 );

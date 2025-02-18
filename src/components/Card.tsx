@@ -7,20 +7,11 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ title, image, description }) => (
-  <div
-    style={{
-      backgroundColor: "var(--bg-color)",
-      color: "var(--text-color)",
-      border: "1px solid #ccc",
-      borderRadius: "0.5rem",
-      overflow: "hidden",
-      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-    }}
-  >
-    <img src={image} alt={title} style={{ width: "100%", height: "auto" }} />
-    <div style={{ padding: "1rem" }}>
-      <h3 style={{ margin: "0 0 0.5rem 0" }}>{title}</h3>
-      <p style={{ margin: 0 }}>{description}</p>
+  <div className="bg-[var(--bg-color)] text-[var(--text-color)] border border-gray-300 rounded-lg overflow-hidden shadow-md">
+    <img src={image} alt={title} className="w-full h-auto" />
+    <div className="p-4">
+      <h3 className="mb-2">{title}</h3>
+      <p className="m-0">{description}</p>
     </div>
   </div>
 );
