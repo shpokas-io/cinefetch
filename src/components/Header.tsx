@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 
 const Header: React.FC = () => {
   const { isDark, toggleTheme } = useContext(ThemeContext);
+
   return (
     <header className="p-4 flex items-center justify-between bg-[var(--bg-color)]">
       <div className="flex items-center gap-3">
@@ -21,12 +23,12 @@ const Header: React.FC = () => {
         </div>
       </div>
       <nav className="flex gap-4">
-        <a href="#" className="no-underline text-[var(--text-color)]">
+        <Link to="/" className="no-underline text-[var(--text-color)]">
           HOME
-        </a>
-        <a href="#" className="no-underline text-[var(--text-color)]">
+        </Link>
+        <Link to="/favorites" className="no-underline text-[var(--text-color)]">
           FAVORITES
-        </a>
+        </Link>
       </nav>
     </header>
   );

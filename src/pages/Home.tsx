@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getAllShows, Show } from "../services/tvShows";
 import Layout from "../components/Layout";
 import Card from "../components/Card";
+import { getAllShows, Show } from "../services/tvShows";
 
 const Home: React.FC = () => {
   const [shows, setShows] = useState<Show[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
 
   if (loading) {
     return (
-      <Layout>
+      <Layout showFilters>
         <div className="p-4">Loading...</div>
       </Layout>
     );
@@ -33,14 +33,14 @@ const Home: React.FC = () => {
 
   if (error) {
     return (
-      <Layout>
+      <Layout showFilters>
         <div className="p-4 text-red-500">{error}</div>
       </Layout>
     );
   }
 
   return (
-    <Layout>
+    <Layout showFilters>
       <div className="p-4 grid gap-4 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
         {shows.map((show) => (
           <Card
