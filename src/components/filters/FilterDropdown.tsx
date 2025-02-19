@@ -29,8 +29,11 @@ const FilterDropdown: React.FC<FilterDropdownProps> = (props) => {
   );
   let buttonLabel: string;
   if (isMulti(props)) {
+    const multiSelected = Array.isArray(selected) ? selected : [];
     buttonLabel =
-      selected.length > 0 ? `${placeholder} (${selected.length})` : placeholder;
+      multiSelected.length > 0
+        ? `${placeholder} (${multiSelected.length})`
+        : placeholder;
   } else {
     buttonLabel = selected
       ? props.options.find((opt) => opt.value === selected)?.label ??
@@ -47,7 +50,8 @@ const FilterDropdown: React.FC<FilterDropdownProps> = (props) => {
         <div className={dropdownPanelClass}>
           {isMulti(props)
             ? props.options.map((option) => {
-                const isSelected = selected.includes(option);
+                const multiSelected = Array.isArray(selected) ? selected : [];
+                const isSelected = multiSelected.includes(option);
                 return (
                   <label
                     key={option}

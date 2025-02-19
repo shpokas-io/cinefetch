@@ -1,4 +1,3 @@
-// src/pages/ShowDetails.tsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getShowById, Show } from "../services/tvShows";

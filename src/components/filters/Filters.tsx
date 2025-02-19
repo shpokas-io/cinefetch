@@ -3,6 +3,15 @@ import { ThemeContext } from "../../context/ThemeContext";
 import FilterDropdown from "./FilterDropdown";
 import { Option } from "../../types/filterTypes";
 
+interface FiltersProps {
+  sortValue: string;
+  selectedGenres: string[];
+  selectedStatuses: string[];
+  onSortChange: (value: string) => void;
+  onGenreChange: (value: string) => void;
+  onStatusChange: (value: string) => void;
+}
+
 const SORT_OPTIONS: Option[] = [
   { value: "name-asc", label: "Name ↑" },
   { value: "name-desc", label: "Name ↓" },
@@ -23,29 +32,21 @@ const GENRES: string[] = [
 
 const STATUSES: string[] = ["Ended", "Running", "To be Determined"];
 
-const Filters: React.FC = () => {
+const Filters: React.FC<FiltersProps> = ({
+  sortValue,
+  selectedGenres,
+  selectedStatuses,
+  onSortChange,
+  onGenreChange,
+  onStatusChange,
+}) => {
   const { isDark } = useContext(ThemeContext);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [sortValue, setSortValue] = useState("");
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const toggleDropdown = (name: string) =>
     setOpenDropdown((prev) => (prev === name ? null : name));
-  const handleSortSelect = (value: string) => {
-    setSortValue(value);
-    setOpenDropdown(null);
-  };
-  const handleGenreSelect = (value: string) =>
-    setSelectedGenres((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
-    );
-  const handleStatusSelect = (value: string) =>
-    setSelectedStatuses((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
-    );
-  const containerClass = "px-4 pb-4 flex flex-wrap gap-4 justify-center";
+
   return (
-    <div className={containerClass}>
+    <div className="px-4 pb-4 flex flex-wrap gap-4 justify-center">
       <FilterDropdown
         placeholder="Sort filter"
         isOpen={openDropdown === "sort"}
@@ -53,7 +54,10 @@ const Filters: React.FC = () => {
         options={SORT_OPTIONS}
         multi={false}
         selected={sortValue}
-        onSelect={handleSortSelect}
+        onSelect={(value: string) => {
+          onSortChange(value);
+          setOpenDropdown(null);
+        }}
         isDark={isDark}
       />
       <FilterDropdown
@@ -63,7 +67,7 @@ const Filters: React.FC = () => {
         options={GENRES}
         multi={true}
         selected={selectedGenres}
-        onSelect={handleGenreSelect}
+        onSelect={onGenreChange}
         isDark={isDark}
       />
       <FilterDropdown
@@ -73,7 +77,7 @@ const Filters: React.FC = () => {
         options={STATUSES}
         multi={true}
         selected={selectedStatuses}
-        onSelect={handleStatusSelect}
+        onSelect={onStatusChange}
         isDark={isDark}
       />
     </div>
