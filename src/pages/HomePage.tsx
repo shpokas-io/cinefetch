@@ -12,11 +12,9 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
   const [sortValue, setSortValue] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,67 +28,45 @@ const Home: React.FC = () => {
     };
     fetchData();
   }, []);
-
   const filteredShows = shows.filter((show) => {
     if (
       selectedGenres.length > 0 &&
       !selectedGenres.some((genre) => show.genres.includes(genre))
-    ) {
+    )
       return false;
-    }
-    if (
-      selectedStatuses.length > 0 &&
-      !selectedStatuses.includes(show.status)
-    ) {
+    if (selectedStatuses.length > 0 && !selectedStatuses.includes(show.status))
       return false;
-    }
     return true;
   });
-
   const sortedShows = [...filteredShows].sort((a, b) => {
     if (!sortValue) return 0;
-    if (sortValue === "name-asc") {
-      return a.name.localeCompare(b.name);
-    }
-    if (sortValue === "name-desc") {
-      return b.name.localeCompare(a.name);
-    }
-    if (sortValue === "premiered-asc") {
+    if (sortValue === "name-asc") return a.name.localeCompare(b.name);
+    if (sortValue === "name-desc") return b.name.localeCompare(a.name);
+    if (sortValue === "premiered-asc")
       return (a.premiered ?? "").localeCompare(b.premiered ?? "");
-    }
-    if (sortValue === "premiered-desc") {
+    if (sortValue === "premiered-desc")
       return (b.premiered ?? "").localeCompare(a.premiered ?? "");
-    }
     return 0;
   });
-
   const totalPages = Math.ceil(sortedShows.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const paginatedShows = sortedShows.slice(startIndex, endIndex);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  if (loading) {
+  const handlePageChange = (page: number) => setCurrentPage(page);
+  if (loading)
     return (
-      <Layout showFilters>
+      <Layout>
         <div className="p-4">Loading...</div>
       </Layout>
     );
-  }
-
-  if (error) {
+  if (error)
     return (
-      <Layout showFilters>
+      <Layout>
         <div className="p-4 text-red-500">{error}</div>
       </Layout>
     );
-  }
-
   return (
-    <Layout showFilters>
+    <Layout>
       <Filters
         sortValue={sortValue}
         selectedGenres={selectedGenres}

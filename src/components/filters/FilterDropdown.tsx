@@ -5,15 +5,72 @@ import {
   MultiFilterDropdownProps,
 } from "../../types/filterTypes";
 
-function isMulti(
+const isMulti = (
   props: FilterDropdownProps
-): props is MultiFilterDropdownProps {
-  return props.multi === true;
-}
+): props is MultiFilterDropdownProps => props.multi === true;
+
+const getButtonLabel = (props: FilterDropdownProps): string => {
+  const { placeholder, selected, multi } = props;
+  if (multi) {
+    const multiSelected = Array.isArray(selected) ? selected : [];
+    return multiSelected.length > 0
+      ? `${placeholder} (${multiSelected.length})`
+      : placeholder;
+  } else {
+    const options = props.options as Option[];
+    const selectedOption = options.find((opt) => opt.value === selected);
+    return selectedOption ? selectedOption.label : placeholder;
+  }
+};
+
+const renderOptions = (props: FilterDropdownProps) => {
+  const { selected, onSelect } = props;
+  if (isMulti(props)) {
+    const options = props.options as string[];
+    const multiSelected = Array.isArray(selected) ? selected : [];
+    return options.map((option) => {
+      const isChecked = multiSelected.includes(option);
+      return (
+        <label
+          key={option}
+          className="flex items-center px-3 py-2 hover:bg-gray-500 hover:bg-opacity-20 cursor-pointer"
+        >
+          <input
+            type="checkbox"
+            className="mr-2"
+            value={option}
+            checked={isChecked}
+            onChange={() => onSelect(option)}
+          />
+          {option}
+        </label>
+      );
+    });
+  }
+  const options = props.options as Option[];
+  return options.map((option) => {
+    const isChecked = selected === option.value;
+    return (
+      <label
+        key={option.value}
+        className="flex items-center px-3 py-2 hover:bg-gray-500 hover:bg-opacity-20 cursor-pointer"
+      >
+        <input
+          type="radio"
+          className="mr-2"
+          name="singleSelect"
+          value={option.value}
+          checked={isChecked}
+          onChange={() => onSelect(option.value)}
+        />
+        {option.label}
+      </label>
+    );
+  });
+};
 
 const FilterDropdown: React.FC<FilterDropdownProps> = (props) => {
-  const { placeholder, isOpen, onToggle, multi, selected, onSelect, isDark } =
-    props;
+  const { isOpen, onToggle, multi, isDark } = props;
   const darkModeBg = isDark
     ? "bg-gray-700 text-white"
     : "bg-gray-200 text-black";
@@ -27,19 +84,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = (props) => {
       <path d="M5.5 7l4 4 4-4H5.5z" />
     </svg>
   );
-  let buttonLabel: string;
-  if (isMulti(props)) {
-    const multiSelected = Array.isArray(selected) ? selected : [];
-    buttonLabel =
-      multiSelected.length > 0
-        ? `${placeholder} (${multiSelected.length})`
-        : placeholder;
-  } else {
-    buttonLabel = selected
-      ? props.options.find((opt) => opt.value === selected)?.label ??
-        placeholder
-      : placeholder;
-  }
+  const buttonLabel = getButtonLabel(props);
   return (
     <div className="relative inline-block">
       <button type="button" onClick={onToggle} className={baseButtonClass}>
@@ -47,47 +92,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = (props) => {
         {arrowIcon}
       </button>
       {isOpen && (
-        <div className={dropdownPanelClass}>
-          {isMulti(props)
-            ? props.options.map((option) => {
-                const multiSelected = Array.isArray(selected) ? selected : [];
-                const isSelected = multiSelected.includes(option);
-                return (
-                  <label
-                    key={option}
-                    className="flex items-center px-3 py-2 hover:bg-gray-500 hover:bg-opacity-20 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      className="mr-2"
-                      value={option}
-                      checked={isSelected}
-                      onChange={() => onSelect(option)}
-                    />
-                    {option}
-                  </label>
-                );
-              })
-            : props.options.map((option: Option) => {
-                const isSelected = selected === option.value;
-                return (
-                  <label
-                    key={option.value}
-                    className="flex items-center px-3 py-2 hover:bg-gray-500 hover:bg-opacity-20 cursor-pointer"
-                  >
-                    <input
-                      type="radio"
-                      className="mr-2"
-                      name="singleSelect"
-                      value={option.value}
-                      checked={isSelected}
-                      onChange={() => onSelect(option.value)}
-                    />
-                    {option.label}
-                  </label>
-                );
-              })}
-        </div>
+        <div className={dropdownPanelClass}>{renderOptions(props)}</div>
       )}
     </div>
   );

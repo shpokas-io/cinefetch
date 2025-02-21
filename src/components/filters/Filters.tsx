@@ -3,15 +3,6 @@ import { ThemeContext } from "../../context/ThemeContext";
 import FilterDropdown from "./FilterDropdown";
 import { Option } from "../../types/filterTypes";
 
-interface FiltersProps {
-  sortValue: string;
-  selectedGenres: string[];
-  selectedStatuses: string[];
-  onSortChange: (value: string) => void;
-  onGenreChange: (value: string) => void;
-  onStatusChange: (value: string) => void;
-}
-
 const SORT_OPTIONS: Option[] = [
   { value: "name-asc", label: "Name ↑" },
   { value: "name-desc", label: "Name ↓" },
@@ -32,6 +23,15 @@ const GENRES: string[] = [
 
 const STATUSES: string[] = ["Ended", "Running", "To be Determined"];
 
+interface FiltersProps {
+  sortValue: string;
+  selectedGenres: string[];
+  selectedStatuses: string[];
+  onSortChange: (value: string) => void;
+  onGenreChange: (value: string) => void;
+  onStatusChange: (value: string) => void;
+}
+
 const Filters: React.FC<FiltersProps> = ({
   sortValue,
   selectedGenres,
@@ -44,7 +44,6 @@ const Filters: React.FC<FiltersProps> = ({
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const toggleDropdown = (name: string) =>
     setOpenDropdown((prev) => (prev === name ? null : name));
-
   return (
     <div className="px-4 pb-4 flex flex-wrap gap-4 justify-center">
       <FilterDropdown

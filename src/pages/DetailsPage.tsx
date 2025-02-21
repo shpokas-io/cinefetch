@@ -10,7 +10,6 @@ const ShowDetails: React.FC = () => {
   const [show, setShow] = useState<Show | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   useEffect(() => {
     const fetchShow = async () => {
       try {
@@ -25,31 +24,24 @@ const ShowDetails: React.FC = () => {
     };
     fetchShow();
   }, [id]);
-
-  if (loading) {
+  if (loading)
     return (
       <Layout>
         <div className="p-4">Loading show details...</div>
       </Layout>
     );
-  }
-
-  if (error) {
+  if (error)
     return (
       <Layout>
         <div className="p-4 text-red-500">{error}</div>
       </Layout>
     );
-  }
-
-  if (!show) {
+  if (!show)
     return (
       <Layout>
         <div className="p-4 text-red-500">Show not found.</div>
       </Layout>
     );
-  }
-
   const cleanSummary = show.summary
     ? show.summary.replace(/<[^>]+>/g, "")
     : "No description available.";
@@ -58,7 +50,6 @@ const ShowDetails: React.FC = () => {
     : "https://via.placeholder.com/500x750";
   const displayRating =
     show.rating && show.rating.average ? show.rating.average : "N/A";
-
   return (
     <Layout>
       <div className="p-4 flex flex-col gap-6">

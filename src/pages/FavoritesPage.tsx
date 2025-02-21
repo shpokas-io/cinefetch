@@ -9,7 +9,6 @@ const Favorites: React.FC = () => {
   const [shows, setShows] = useState<Show[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   useEffect(() => {
     const fetchFavoriteShows = async () => {
       try {
@@ -26,23 +25,18 @@ const Favorites: React.FC = () => {
     };
     fetchFavoriteShows();
   }, [favorites]);
-
-  if (loading) {
+  if (loading)
     return (
       <Layout>
         <div className="p-4">Loading favorites...</div>
       </Layout>
     );
-  }
-
-  if (error) {
+  if (error)
     return (
       <Layout>
         <div className="p-4 text-red-500">{error}</div>
       </Layout>
     );
-  }
-
   return (
     <Layout>
       <div className="p-4">
