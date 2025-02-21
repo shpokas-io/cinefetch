@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import Layout from "../components/Layout";
 import { getAllShows, Show } from "../services/tvShows";
 import Card from "../components/Card";
@@ -15,6 +15,7 @@ const Home: React.FC = () => {
   const [sortValue, setSortValue] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,43 +29,69 @@ const Home: React.FC = () => {
     };
     fetchData();
   }, []);
-  const filteredShows = shows.filter((show) => {
-    if (
-      selectedGenres.length > 0 &&
-      !selectedGenres.some((genre) => show.genres.includes(genre))
-    )
-      return false;
-    if (selectedStatuses.length > 0 && !selectedStatuses.includes(show.status))
-      return false;
-    return true;
-  });
-  const sortedShows = [...filteredShows].sort((a, b) => {
-    if (!sortValue) return 0;
-    if (sortValue === "name-asc") return a.name.localeCompare(b.name);
-    if (sortValue === "name-desc") return b.name.localeCompare(a.name);
+
+  const filteredShows = useMemo(() => {
+    return shows.filter((show) => {
+      if (
+        selectedGenres.length > 0 &&
+        !selectedGenres.some((genre) => show.genres.includes(genre))
+      )
+        return false;
+      if (
+        selectedStatuses.length > 0 &&
+        !selectedStatuses.includes(show.status)
+      )
+        return false;
+      return true;
+    });
+  }, [shows, selectedGenres, selectedStatuses]);
+
+  const sortedShows = useMemo(() => {
+    const copy = [...filteredShows];
+    if (!sortValue) return copy;
+    if (sortValue === "name-asc")
+      return copy.sort((a, b) => a.name.localeCompare(b.name));
+    if (sortValue === "name-desc")
+      return copy.sort((a, b) => b.name.localeCompare(a.name));
     if (sortValue === "premiered-asc")
-      return (a.premiered ?? "").localeCompare(b.premiered ?? "");
+      return copy.sort((a, b) =>
+        (a.premiered ?? "").localeCompare(b.premiered ?? "")
+      );
     if (sortValue === "premiered-desc")
-      return (b.premiered ?? "").localeCompare(a.premiered ?? "");
-    return 0;
-  });
-  const totalPages = Math.ceil(sortedShows.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedShows = sortedShows.slice(startIndex, endIndex);
-  const handlePageChange = (page: number) => setCurrentPage(page);
+      return copy.sort((a, b) =>
+        (b.premiered ?? "").localeCompare(a.premiered ?? "")
+      );
+    return copy;
+  }, [filteredShows, sortValue]);
+
+  const totalPages = useMemo(
+    () => Math.ceil(sortedShows.length / ITEMS_PER_PAGE),
+    [sortedShows]
+  );
+
+  const paginatedShows = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return sortedShows.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [sortedShows, currentPage]);
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
   if (loading)
     return (
       <Layout>
         <div className="p-4">Loading...</div>
       </Layout>
     );
+
   if (error)
     return (
       <Layout>
         <div className="p-4 text-red-500">{error}</div>
       </Layout>
     );
+
   return (
     <Layout>
       <Filters
