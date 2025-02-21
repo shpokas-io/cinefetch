@@ -12,13 +12,15 @@ const isMulti = (
 const getButtonLabel = (props: FilterDropdownProps): string => {
   const { placeholder, selected, multi } = props;
   if (multi) {
-    const multiSelected = Array.isArray(selected) ? selected : [];
+    const multiSelected = selected;
     return multiSelected.length > 0
       ? `${placeholder} (${multiSelected.length})`
       : placeholder;
   } else {
-    const options = props.options as Option[];
-    const selectedOption = options.find((opt) => opt.value === selected);
+    const options = props.options;
+    const selectedOption = options.find(
+      (opt: Option) => opt.value === selected
+    );
     return selectedOption ? selectedOption.label : placeholder;
   }
 };
@@ -26,9 +28,9 @@ const getButtonLabel = (props: FilterDropdownProps): string => {
 const renderOptions = (props: FilterDropdownProps) => {
   const { selected, onSelect } = props;
   if (isMulti(props)) {
-    const options = props.options as string[];
-    const multiSelected = Array.isArray(selected) ? selected : [];
-    return options.map((option) => {
+    const options = props.options;
+    const multiSelected = selected;
+    return options.map((option: string) => {
       const isChecked = multiSelected.includes(option);
       return (
         <label
@@ -47,8 +49,8 @@ const renderOptions = (props: FilterDropdownProps) => {
       );
     });
   }
-  const options = props.options as Option[];
-  return options.map((option) => {
+  const options = props.options;
+  return options.map((option: Option) => {
     const isChecked = selected === option.value;
     return (
       <label
