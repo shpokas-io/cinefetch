@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { Show } from "../services/tvShows";
-import { useFavorites } from "../context/FavoriteContext";
+import { useFavorites } from "../hooks/useFavorites";
 
 interface CardProps {
   show: Show;
