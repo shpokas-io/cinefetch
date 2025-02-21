@@ -28,17 +28,23 @@ const Pagination: React.FC<PaginationProps> = ({
     pages.push(lastPage);
     return pages;
   };
+
   const paginationRange = getPaginationRange();
+  let ellipsisCounter = 0;
+
   return (
     <div className="flex justify-center items-center gap-2 mt-6">
-      {paginationRange.map((page, index) =>
+      {paginationRange.map((page) =>
         page === "..." ? (
-          <span key={`ellipsis-${index}`} className="px-3 py-1 text-[#4ade80]">
+          <span
+            key={`ellipsis-${++ellipsisCounter}`}
+            className="px-3 py-1 text-[#4ade80]"
+          >
             ...
           </span>
         ) : (
           <button
-            key={page as number}
+            key={`page-${page}`}
             onClick={() => onPageChange(page as number)}
             className={`px-3 py-1 border rounded transition ${
               page === currentPage
