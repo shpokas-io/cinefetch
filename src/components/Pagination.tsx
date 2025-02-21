@@ -38,7 +38,7 @@ const Pagination: React.FC<PaginationProps> = ({
         page === "..." ? (
           <span
             key={`ellipsis-${++ellipsisCounter}`}
-            className="px-3 py-1 text-[#4ade80]"
+            className="px-3 py-1 text-[var(--brand-color)]"
           >
             ...
           </span>
@@ -48,8 +48,8 @@ const Pagination: React.FC<PaginationProps> = ({
             onClick={() => onPageChange(page as number)}
             className={`px-3 py-1 border rounded transition ${
               page === currentPage
-                ? "bg-[#4ade80] text-black border-[#4ade80]"
-                : "border-[#4ade80] text-[#4ade80] hover:bg-[#4ade80] hover:text-black"
+                ? "bg-[var(--pagination-active-bg)] text-[var(--pagination-active-text)] border-[var(--pagination-border)]"
+                : "border-[var(--pagination-border)] text-[var(--brand-color)] hover:bg-[var(--pagination-hover-bg)] hover:text-[var(--pagination-hover-text)]"
             }`}
           >
             {page}

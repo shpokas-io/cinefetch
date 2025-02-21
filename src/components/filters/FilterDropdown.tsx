@@ -9,15 +9,17 @@ const isMulti = (
   props: FilterDropdownProps
 ): props is MultiFilterDropdownProps => props.multi === true;
 
-const getButtonLabel = (props: FilterDropdownProps): string => {
-  const { placeholder, selected, multi } = props;
+const getButtonLabel = ({
+  placeholder,
+  selected,
+  multi,
+  options,
+}: FilterDropdownProps): string => {
   if (multi) {
-    const multiSelected = selected;
-    return multiSelected.length > 0
-      ? `${placeholder} (${multiSelected.length})`
+    return selected.length > 0
+      ? `${placeholder} (${selected.length})`
       : placeholder;
   } else {
-    const options = props.options;
     const selectedOption = options.find(
       (opt: Option) => opt.value === selected
     );
@@ -25,32 +27,36 @@ const getButtonLabel = (props: FilterDropdownProps): string => {
   }
 };
 
-const renderOptions = (props: FilterDropdownProps) => {
-  const { selected, onSelect } = props;
-  if (isMulti(props)) {
-    const options = props.options;
-    const multiSelected = selected;
-    return options.map((option: string) => {
-      const isChecked = multiSelected.includes(option);
-      return (
-        <label
-          key={option}
-          className="flex items-center px-3 py-2 hover:bg-gray-500 hover:bg-opacity-20 cursor-pointer"
-        >
-          <input
-            type="checkbox"
-            className="mr-2"
-            value={option}
-            checked={isChecked}
-            onChange={() => onSelect(option)}
-          />
-          {option}
-        </label>
-      );
-    });
-  }
-  const options = props.options;
-  return options.map((option: Option) => {
+const MultiSelectOptions: React.FC<{
+  options: string[];
+  selected: string[];
+  onSelect: (value: string) => void;
+}> = ({ options, selected, onSelect }) =>
+  options.map((option) => {
+    const isChecked = selected.includes(option);
+    return (
+      <label
+        key={option}
+        className="flex items-center px-3 py-2 hover:bg-gray-500 hover:bg-opacity-20 cursor-pointer"
+      >
+        <input
+          type="checkbox"
+          className="mr-2"
+          value={option}
+          checked={isChecked}
+          onChange={() => onSelect(option)}
+        />
+        {option}
+      </label>
+    );
+  });
+
+const SingleSelectOptions: React.FC<{
+  options: Option[];
+  selected: string;
+  onSelect: (value: string) => void;
+}> = ({ options, selected, onSelect }) =>
+  options.map((option) => {
     const isChecked = selected === option.value;
     return (
       <label
@@ -69,6 +75,22 @@ const renderOptions = (props: FilterDropdownProps) => {
       </label>
     );
   });
+
+const renderOptions = (props: FilterDropdownProps) => {
+  const { selected, onSelect, options } = props;
+  return isMulti(props) ? (
+    <MultiSelectOptions
+      options={options as string[]}
+      selected={selected as string[]}
+      onSelect={onSelect}
+    />
+  ) : (
+    <SingleSelectOptions
+      options={options as Option[]}
+      selected={selected as string}
+      onSelect={onSelect}
+    />
+  );
 };
 
 const FilterDropdown: React.FC<FilterDropdownProps> = (props) => {

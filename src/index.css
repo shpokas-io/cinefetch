@@ -6,6 +6,18 @@
   --button-bg: #4ade80;
   --button-text: #ffffff;
   --button-hover: #2b854c;
+  --brand-color: #4ade80;
+  --toggle-dark: #4b5563;
+  --toggle-light: #d1d5db;
+  --dropdown-dark-bg: #4b5563;
+  --dropdown-dark-text: #ffffff;
+  --dropdown-light-bg: #d1d5db;
+  --dropdown-light-text: #000000;
+  --pagination-active-bg: var(--brand-color);
+  --pagination-active-text: #000000;
+  --pagination-border: var(--brand-color);
+  --pagination-hover-bg: var(--brand-color);
+  --pagination-hover-text: #000000;
 }
 
 .dark {

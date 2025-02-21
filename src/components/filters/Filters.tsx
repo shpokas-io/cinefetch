@@ -1,27 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import FilterDropdown from "./FilterDropdown";
-import { Option } from "../../types/filterTypes";
-
-const SORT_OPTIONS: Option[] = [
-  { value: "name-asc", label: "Name ↑" },
-  { value: "name-desc", label: "Name ↓" },
-  { value: "premiered-asc", label: "Premiered ↑" },
-  { value: "premiered-desc", label: "Premiered ↓" },
-];
-
-const GENRES: string[] = [
-  "Action",
-  "Crime",
-  "Science-Fiction",
-  "Drama",
-  "Thriller",
-  "Espionage",
-  "Music",
-  "Romance",
-];
-
-const STATUSES: string[] = ["Ended", "Running", "To be Determined"];
+import { SORT_OPTIONS, GENRES, STATUSES } from "../../constants/filters";
 
 interface FiltersProps {
   sortValue: string;
@@ -44,6 +24,7 @@ const Filters: React.FC<FiltersProps> = ({
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const toggleDropdown = (name: string) =>
     setOpenDropdown((prev) => (prev === name ? null : name));
+
   return (
     <div className="px-4 pb-4 flex flex-wrap gap-4 justify-center">
       <FilterDropdown

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useTheme } from "../hooks/useTheme";
 
 const Brand: React.FC = () => (
-  <div className="text-2xl font-bold text-[#4ade80]">CineFetch</div>
+  <div className="text-2xl font-bold text-[var(--brand-color)]">CineFetch</div>
 );
 
 const ThemeToggle: React.FC = () => {
@@ -13,7 +13,7 @@ const ThemeToggle: React.FC = () => {
       type="button"
       onClick={toggleTheme}
       className={`relative w-10 h-5 rounded-full cursor-pointer p-0 border-0 focus:outline-none ${
-        isDark ? "bg-[#4b5563]" : "bg-[#d1d5db]"
+        isDark ? "bg-[var(--toggle-dark)]" : "bg-[var(--toggle-light)]"
       }`}
       aria-label="Toggle theme"
     >
@@ -32,7 +32,7 @@ const NavigationLink: React.FC<{ to: string; label: string }> = memo(
       to={to}
       className={({ isActive }) =>
         isActive
-          ? "text-[#4ade80] border-b-2 border-[#4ade80] no-underline"
+          ? "text-[var(--brand-color)] border-b-2 border-[var(--brand-color)] no-underline"
           : "text-[var(--text-color)] no-underline"
       }
     >
