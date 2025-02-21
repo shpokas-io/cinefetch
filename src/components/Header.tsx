@@ -9,18 +9,20 @@ const Brand: React.FC = () => (
 const ThemeToggle: React.FC = () => {
   const { isDark, toggleTheme } = useContext(ThemeContext);
   return (
-    <div
+    <button
+      type="button"
       onClick={toggleTheme}
-      className={`relative w-10 h-5 rounded-full cursor-pointer ${
+      className={`relative w-10 h-5 rounded-full cursor-pointer p-0 border-0 focus:outline-none ${
         isDark ? "bg-[#4b5563]" : "bg-[#d1d5db]"
       }`}
+      aria-label="Toggle theme"
     >
       <div
         className={`absolute top-[2px] w-4 h-4 bg-white rounded-full transition-all ${
           isDark ? "left-[20px]" : "left-[2px]"
         }`}
       />
-    </div>
+    </button>
   );
 };
 
