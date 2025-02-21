@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { ThemeContext } from "../../context/ThemeContext";
+import React, { useState } from "react";
+import { useTheme } from "../../hooks/useTheme";
 import FilterDropdown from "./FilterDropdown";
 import { Option } from "../../types/filterTypes";
 
@@ -40,7 +40,7 @@ const Filters: React.FC<FiltersProps> = ({
   onGenreChange,
   onStatusChange,
 }) => {
-  const { isDark } = useContext(ThemeContext);
+  const { isDark } = useTheme();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const toggleDropdown = (name: string) =>
     setOpenDropdown((prev) => (prev === name ? null : name));

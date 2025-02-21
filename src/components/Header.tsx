@@ -1,13 +1,13 @@
-import React, { useContext, memo } from "react";
+import React, { memo } from "react";
 import { NavLink } from "react-router-dom";
-import { ThemeContext } from "../context/ThemeContext";
+import { useTheme } from "../hooks/useTheme";
 
 const Brand: React.FC = () => (
   <div className="text-2xl font-bold text-[#4ade80]">CineFetch</div>
 );
 
 const ThemeToggle: React.FC = () => {
-  const { isDark, toggleTheme } = useContext(ThemeContext);
+  const { isDark, toggleTheme } = useTheme();
   return (
     <button
       type="button"
