@@ -1,51 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getShowById, Show } from "../services/tvShows";
 import Layout from "../components/Layout";
 import Button from "../components/Button";
+import { useShowDetails } from "../hooks/useShowDetails";
+
+const Loading: React.FC = () => (
+  <div className="p-4">Loading show details...</div>
+);
+
+const ErrorMessage: React.FC<{ message: string }> = ({ message }) => (
+  <div className="p-4 text-red-500">{message}</div>
+);
 
 const ShowDetails: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [show, setShow] = useState<Show | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { show, loading, error } = useShowDetails(id);
 
-  useEffect(() => {
-    const fetchShow = async () => {
-      try {
-        if (!id) return;
-        const data = await getShowById(id);
-        setShow(data);
-      } catch {
-        setError("Failed to fetch show details.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchShow();
-  }, [id]);
+  const handleBack = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
 
-  if (loading)
+  if (loading) {
     return (
       <Layout>
-        <div className="p-4">Loading show details...</div>
+        <Loading />
       </Layout>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
       <Layout>
-        <div className="p-4 text-red-500">{error}</div>
+        <ErrorMessage message={error} />
       </Layout>
     );
+  }
 
-  if (!show)
+  if (!show) {
     return (
       <Layout>
-        <div className="p-4 text-red-500">Show not found.</div>
+        <ErrorMessage message="Show not found." />
       </Layout>
     );
+  }
 
   const cleanSummary =
     show.summary?.replace(/<[^>]+>/g, "") || "No description available.";
@@ -58,7 +56,7 @@ const ShowDetails: React.FC = () => {
     <Layout>
       <div className="p-4 flex flex-col gap-6">
         <div className="flex justify-start">
-          <Button onClick={() => navigate(-1)} className="px-3 py-1 text-sm">
+          <Button onClick={handleBack} className="px-3 py-1 text-sm">
             Back
           </Button>
         </div>
