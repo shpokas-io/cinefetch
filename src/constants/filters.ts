@@ -1,6 +1,7 @@
 import { Option } from "../types/filterTypes";
 
 export const SORT_OPTIONS: Option[] = [
+  { value: "", label: "No Sort" },
   { value: "name-asc", label: "Name ↑" },
   { value: "name-desc", label: "Name ↓" },
   { value: "premiered-asc", label: "Premiered ↑" },
@@ -18,4 +19,8 @@ export const GENRES: string[] = [
   "Romance",
 ];
 
-export const STATUSES: string[] = ["Ended", "Running", "To be Determined"];
+export const STATUSES: Option[] = [
+  { value: "Ended", label: "Ended" },
+  { value: "Running", label: "Running" },
+  { value: "To be Determined", label: "To be Determined" },
+];

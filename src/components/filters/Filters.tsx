@@ -6,7 +6,7 @@ import { SORT_OPTIONS, GENRES, STATUSES } from "../../constants/filters";
 interface FiltersProps {
   sortValue: string;
   selectedGenres: string[];
-  selectedStatuses: string[];
+  selectedStatus: string;
   onSortChange: (value: string) => void;
   onGenreChange: (value: string) => void;
   onStatusChange: (value: string) => void;
@@ -15,7 +15,7 @@ interface FiltersProps {
 const Filters: React.FC<FiltersProps> = ({
   sortValue,
   selectedGenres,
-  selectedStatuses,
+  selectedStatus,
   onSortChange,
   onGenreChange,
   onStatusChange,
@@ -55,9 +55,12 @@ const Filters: React.FC<FiltersProps> = ({
         isOpen={openDropdown === "status"}
         onToggle={() => toggleDropdown("status")}
         options={STATUSES}
-        multi={true}
-        selected={selectedStatuses}
-        onSelect={onStatusChange}
+        multi={false}
+        selected={selectedStatus}
+        onSelect={(value: string) => {
+          onStatusChange(value);
+          setOpenDropdown(null);
+        }}
         isDark={isDark}
       />
     </div>

@@ -14,7 +14,7 @@ const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortValue, setSortValue] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,16 +35,15 @@ const Home: React.FC = () => {
       if (
         selectedGenres.length > 0 &&
         !selectedGenres.some((genre) => show.genres.includes(genre))
-      )
+      ) {
         return false;
-      if (
-        selectedStatuses.length > 0 &&
-        !selectedStatuses.includes(show.status)
-      )
+      }
+      if (selectedStatus && show.status !== selectedStatus) {
         return false;
+      }
       return true;
     });
-  }, [shows, selectedGenres, selectedStatuses]);
+  }, [shows, selectedGenres, selectedStatus]);
 
   const sortedShows = useMemo(() => {
     const copy = [...filteredShows];
@@ -97,7 +96,7 @@ const Home: React.FC = () => {
       <Filters
         sortValue={sortValue}
         selectedGenres={selectedGenres}
-        selectedStatuses={selectedStatuses}
+        selectedStatus={selectedStatus}
         onSortChange={setSortValue}
         onGenreChange={(value) =>
           setSelectedGenres((prev) =>
@@ -106,13 +105,7 @@ const Home: React.FC = () => {
               : [...prev, value]
           )
         }
-        onStatusChange={(value) =>
-          setSelectedStatuses((prev) =>
-            prev.includes(value)
-              ? prev.filter((v) => v !== value)
-              : [...prev, value]
-          )
-        }
+        onStatusChange={setSelectedStatus}
       />
       <div className="p-4 grid gap-6 md:grid-cols-2">
         {paginatedShows.map((show) => (
