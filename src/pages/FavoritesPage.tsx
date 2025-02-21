@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { Show, getAllShows } from "../services/tvShows";
 import Card from "../components/Card";
-import { useFavorites } from "../context/FavoriteContext";
+import { useFavorites } from "../hooks/useFavorites";
 
 const Favorites: React.FC = () => {
   const { favorites } = useFavorites();
