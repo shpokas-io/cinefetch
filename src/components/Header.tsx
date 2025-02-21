@@ -1,10 +1,9 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext";
 
 const Header: React.FC = () => {
   const { isDark, toggleTheme } = useContext(ThemeContext);
-
   return (
     <header className="p-4 flex items-center justify-between bg-[var(--bg-color)]">
       <div className="flex items-center gap-3">
@@ -23,12 +22,26 @@ const Header: React.FC = () => {
         </div>
       </div>
       <nav className="flex gap-4">
-        <Link to="/" className="no-underline text-[var(--text-color)]">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "text-[#4ade80] border-b-2 border-[#4ade80] no-underline"
+              : "text-[var(--text-color)] no-underline"
+          }
+        >
           HOME
-        </Link>
-        <Link to="/favorites" className="no-underline text-[var(--text-color)]">
+        </NavLink>
+        <NavLink
+          to="/favorites"
+          className={({ isActive }) =>
+            isActive
+              ? "text-[#4ade80] border-b-2 border-[#4ade80] no-underline"
+              : "text-[var(--text-color)] no-underline"
+          }
+        >
           FAVORITES
-        </Link>
+        </NavLink>
       </nav>
     </header>
   );
