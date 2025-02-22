@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 
 interface PaginationProps {
   currentPage: number;
@@ -11,33 +11,50 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
-  if (totalPages <= 1) return null;
-  const getPaginationRange = (): (number | string)[] => {
-    const pageCountToShow = 5;
-    if (totalPages <= pageCountToShow)
+  const pageCountToShow = 5;
+
+  const paginationRange = useMemo(() => {
+    if (totalPages <= pageCountToShow) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
     const pages: (number | string)[] = [];
     const firstPage = 1;
     const lastPage = totalPages;
     const left = Math.max(currentPage - 1, 2);
     const right = Math.min(currentPage + 1, totalPages - 1);
     pages.push(firstPage);
-    if (left > 2) pages.push("...");
-    for (let i = left; i <= right; i++) pages.push(i);
-    if (right < totalPages - 1) pages.push("...");
+    if (left > 2) {
+      pages.push("...");
+    }
+    for (let i = left; i <= right; i++) {
+      pages.push(i);
+    }
+    if (right < totalPages - 1) {
+      pages.push("...");
+    }
     pages.push(lastPage);
     return pages;
-  };
+  }, [currentPage, totalPages, pageCountToShow]);
 
-  const paginationRange = getPaginationRange();
-  let ellipsisCounter = 0;
+  const handlePageChange = useCallback(
+    (page: number) => {
+      if (page !== currentPage) {
+        onPageChange(page);
+      }
+    },
+    [currentPage, onPageChange]
+  );
+
+  if (totalPages <= 1 || currentPage < 1 || currentPage > totalPages) {
+    return null;
+  }
 
   return (
     <div className="flex justify-center items-center gap-2 mt-6">
-      {paginationRange.map((page) =>
+      {paginationRange.map((page, index) =>
         page === "..." ? (
           <span
-            key={`ellipsis-${++ellipsisCounter}`}
+            key={`ellipsis-${currentPage}-${index}`}
             className="px-3 py-1 text-[var(--brand-color)]"
           >
             ...
@@ -45,7 +62,8 @@ const Pagination: React.FC<PaginationProps> = ({
         ) : (
           <button
             key={`page-${page}`}
-            onClick={() => onPageChange(page as number)}
+            onClick={() => handlePageChange(page as number)}
+            aria-current={page === currentPage ? "page" : undefined}
             className={`px-3 py-1 border rounded transition ${
               page === currentPage
                 ? "bg-[var(--pagination-active-bg)] text-[var(--pagination-active-text)] border-[var(--pagination-border)]"
